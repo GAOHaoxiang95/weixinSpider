@@ -5,7 +5,6 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 from urllib.parse import urlencode
 from weixin.items import WeixinItem
-from urllib.parse import urlunsplit, urlsplit
 
 	
 	
@@ -31,8 +30,10 @@ class ArticleSpider(CrawlSpider):
     def parse_item(self, response):
         item = WeixinItem()
         item['time'] = re.search('\d\d\d\d-\d\d-\d\d', response.text).group()#javascript
-        item['nickname'] = response.xpath('//*[@id="js_name"]/text()').extract_first()
-        item['title'] = response.xpath('//title/text()').extract_first()
+        item['nickname'] = response.xpath('//*[@id="js_name"]/text()').extract_first().strip()
+        item['title'] = response.xpath('//title/text()').extract_first().strip()
+        str = ''
+        item['content'] = str.join(response.xpath('//span/text()').extract())
         
         return item
 		

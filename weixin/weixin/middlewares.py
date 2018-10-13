@@ -55,7 +55,10 @@ class WeixinSpiderMiddleware(object):
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
 
-
+class ProxyMiddleware():
+	def process_request(self, request, spider):
+		request.meta['proxy'] = 'http://123.53.86.32:39195'
+	
 class WeixinDownloaderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the downloader middleware does not modify the
