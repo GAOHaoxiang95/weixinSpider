@@ -12,7 +12,7 @@ from weixin.items import WeixinItem
 class ArticleSpider(CrawlSpider):
     name = 'article'
     url = "https://weixin.sogou.com/weixin?"
-    keyword = 'NBA'
+    keyword = '爬虫'
 	
 	
     param = urlencode({'type': 2, 'query':keyword})

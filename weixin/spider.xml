@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items>
+<item><time>2016-07-13</time><nickname>大数据文摘</nickname><title>不编程也能爬虫？手把手教你如何从互联网采集海量数据</title><content>
+                      
+                      BigDataDigest普及数据思维，传播数据文化
+                              
+                              
+                          
+                    作者：赵一鸣  摘自：微信公号“沙漠之鹰”大数据文章-数据抓取交流学习群成立啦！想要跟大神级别的学习爬虫？想要跟小伙伴一起组团打怪爬下某网站并交流心得？想获取第一手数据抓取咨询和工具？点击文末“阅读原文”报名加入◆ ◆ ◆不少朋友都会问：几十万条租房，二手房，薪酬，乃至天气数据都是从哪里来的？其实这些数据在十几分钟内就可以采集到！一般我会回答，我用专门的工具，无需编程也能快速抓取。之后肯定又会被问，在哪里能下载这个工具呢？最近比较忙乱，说好的一大堆写作任务都还没有完成。授人以鱼不如授人以渔，我做了一个决定，将这套软件全部开源到GitHub。免费使用，开放源代码！ 从此以后，估计很多做爬虫的工程师要失业了。。。因为我的目标是让普通人也能使用！这篇文章介绍爬虫大概的原理，。◆ ◆ ◆什么是爬虫什么是爬虫互联网是一张大网，采集数据的小程序可以形象地称之为爬虫或者蜘蛛。爬虫的原理很简单，我们在访问网页时，会点击翻页按钮和超链接，浏览器会帮我们请求所有的资源和图片。所以，你可以设计一个程序，能够模拟人在浏览器上的操作，让网站误认为爬虫是正常访问者，它就会把所需的数据乖乖送回来。 爬虫分为两种，一种像百度（黑）那样什么都抓的搜索引擎爬虫。另一种就是开发的，只精确地抓取所需的内容：比如我只要二手房信息，旁边的广告和新闻一律不要。 爬虫这样的名字并不好听，所以我给这套软件起名为Hawk，指代为"鹰"，能够精确，快速地捕捉猎物。 基本不需编程，通过图形化拖拽的操作来快速设计爬虫，有点像Photoshop。它能在20分钟内编写大众点评的爬虫（简化版只需3分钟），然后让它运行就好啦、下面是使用Hawk抓取二手房的视频，建议在wifi环境下观看：◆ ◆ ◆自动将网页导出为Excel那么，一个页面那么大，爬虫怎么知道我想要什么呢？人当然可以很容易地看出，上图的红框是二手房信息，但机器不知道。网页是一种有结构的树，而重要信息所在的节点，往往枝繁叶茂。 举个不恰当的比方，一大家子人构成树状族谱，谁最厉害？当然是：   孩子多，最好一生20个  孩子各个都很争气（生的孙子多）  最好每个孩子还都很像（清一色的一米八）大家就会觉得这一家子太厉害了！我们对整个树结构进行打分，自然就能找到那个最牛的节点，就是我们要的表格。找到最牛爸爸之后，儿子们虽然相似：个子高，长得帅，两条胳膊两条腿，但这些都是共性，没有信息量，我们关心的是特性。大儿子锥子脸，跟其他人都不一样，那脸蛋就是重要信息；三儿子最有钱——钱也是我们关心的。 因此，对比儿子们的不同属性，我们就能知道哪些信息是重要的了。 回到网页采集这个例子，通过一套有趣的算法，给一个网页的地址，软件就会自动地把它转成Excel! （听不懂吧？听不懂正常， 不要在意这些细节！）◆ ◆ ◆破解翻页限制获取了一页的数据，这还不够，我们要获取所有页面的数据！这简单，我们让程序依次地请求第1页，第2页...数据就收集回来了就这么简单吗？网站怎么可能让自己宝贵的数据被这么轻松地抓走呢？所以它只能翻到第50页或第100页。链家就是这样：这也难不倒我们，每页有30个数据，100页最多能呈现3000条数据。北京有16个区县两万个小区，但每个区的小区数量就没有3000个了，我们可分别获取每个区的小区列表。每个小区最多有300多套在售二手房，这样就能获取链家的所有二手房了。 然后我们启动抓取器，Hawk就会给每个子线程（可以理解为机器人）分配任务：给我抓取这个小区的所有二手房！ 然后你就会看到壮观的场面：一堆小机器人，同心协力地从网站上搬数据，超牛迅雷有没有？同时100个任务！！上个厕所回来就抓完了！！！◆ ◆ ◆清洗：识别并转换内容获取的数据大概长这样：但你会看到，里面会有些奇怪的字符应该去去掉。xx平米应该都把数字提取出来。而售价，有的是2130000元，有的是373万元，这些都很难处理。 BUT，没关系！Hawk能够自动识别所有的数据：发现面积那一列的乱码，自动去掉识别价格，并把所有的价格都转换为万元单位发现美元，转换为人民币发现日期，比如2014.12或2014年12.31，都能转换为2014年12月31日哈哈，然后你就能够轻松地把这些数据拿去作分析了，纯净无污染！◆ ◆ ◆破解需要登录的网站此处的意思当然不是去破解用户名密码，还没强到那个程度。 有些网站的数据，都需要登录才能访问。这也难不倒我们。当你开启了Hawk内置了时，Hawk就像一个录音机一样，会记录你对目标网站的访问操作。之后它就会将其重放出来，从而实现自动登录。你会不会担心Hawk保存你的用户名密码？不保存怎么自动登录呢？但是Hawk是开源的，所有代码都经过了审查，是安全的。你的私密信息，只会躺在你自己的硬盘里。(我们就这样自动登录了大众点评)◆ ◆ ◆是不是我也可以抓数据了理论上是的。但道高一尺魔高一丈，不同的网站千差万别，对抗爬虫的技术也有很多种。而且小虫虫对细节非常敏感，只要错一点，后面的步骤就可能进行不下去了。怎么办呢？沙漠君把之前的操作保存并分享出来，你只要加载这些文件就能快速获取数据了。如果你有其他网站的获取需求，可以去找你身边的程序员同学，让他们来帮忙抓数据，或让他们来试试Hawk，看看谁的效率更高。如果你是文科生妹子，那还是建议你多看看东野奎吾和村上春树，直接上手这么复杂的软件会让你抓狂的。那该找谁帮忙抓数据呢？嘿嘿嘿...◆ ◆ ◆在哪里获取软件和教程？Hawk: Advanced Crawler&amp; ETL tool written in C#/WPF软件介绍感谢作者授权转载，稿件部分有变动，作者在大数据文摘的其他投稿点击文末推荐文章查看。◆ ◆ ◆Reward
+        
+    
+        
+    最多200字，当前共字
+          分享你的想法...        最多200字，当前共字</content></item>
+<item><time>2018-01-05</time><nickname>rlyl的自然世界</nickname><title>国外爬虫造景理念！</title><content>
+                                                私家爬虫爬行社
+                                            
+                      
+                      ztrlyl自然界的“维基百科”！
+                              
+                              
+                          
+                    说到爬虫事业，在美国、澳洲和德国等西方发达国家，都确实发展的比较成熟，包括现在很多玩家选用的设备，也都是从国外进口的。这并不是说“外国的月亮就比国内的圆”，而是对方在细节的把控方面有着更好的领悟，可以更多地从动物的角度感受环境的布置，而不是仅仅考虑金钱上的收益问题。一位爬友去参观澳洲的一位知名蜥蜴专家的饲育基地，去了之后很失望，原来偌大的空间里只有区区几只成体蜥蜴。该爬友很是不解，问主人为何不多养几只，为何浪费了如此巨大的空间。该基地的主人则表示，这是在最大化地还原野生的环境，以此来让蜥蜴感受到最真实的生存体验，这样它们活得才快乐。由此可见，国外玩家的出发点完全是为动物着想。在造景设计方面，国内的水准，特别是一些骨灰级玩家的水平早已和西方不相上下，具有很强的对抗性。但是规模庞大的爬馆在金钱与野性面前，往往屈服于前者。这才是人与自然正确的相处方式......From：私家爬虫爬行社Editor：rlyl📖延伸阅读Reward
+        
+    
+        
+    最多200字，当前共字
+          分享你的想法...        最多200字，当前共字</content></item>
+<item><time>2018-03-01</time><nickname>51CTO官微</nickname><title>大话爬虫与反爬虫的技巧博弈</title><content>
+                                                SFLYQ
+                                            
+                      
+                      weixin51cto51CTO官方公众号 —— 聚焦前沿有料的科技资讯、IT干货，关注IT人的成长。不定期会推送有奖活动，请持续关注～
+                              
+                              
+                          
+                    本文转载自：大话WEB开发（ID：SFLYQ_）原文链接：http://mp.weixin.qq.com/s/2_JY-93H0-szuWPmMjZU_w图1-意淫爬虫与反爬虫间的对决如今已然是大数据时代，数据正在驱动着业务开发，驱动着运营手段，有了数据的支撑可以对用户进行用户画像，个性化定制，数据可以指明方案设计和决策优化方向，所以互联网产品的开发都是离不开对数据的收集和分析，数据收集的一种是方式是通过上报API进行自身平台用户交互情况的捕获，还有一种手段是通过开发爬虫程序，爬取竞品平台的数据，后面就重点说下爬虫的应用场景和实践中会遇到的问题和反反爬虫的一些套路与技巧。互联网平台，偏向销售公司，客户信息的爬取客户信息的爬取可以释放销售人员寻找客户资源的时间，提高销售对市场开发的效率爬取相关平台上的客户信息，上报到CRM管理系统，提供给销售人员进行开发资讯爬取并应用到平台业务中经常浏览资讯的时候会发现其实很多平台的热门资讯内容都很相似，尊重版权的平台，会标明来源出处爬取资讯信息，应用到资讯业务中，可以减轻资讯内容编辑人员的压力，如果不需要创造自己的内容，也可全部托管给程序AI运营竞品公司重要数据挖掘分析与应用竞品平台重要业务数据，如：汽车X家的车型信息，X哪儿的酒店信息，返X网的商品信息，… …爬取竞品重要数据，对数据进行筛选和处理，然后投入业务中展示，增加这块业务数据量，减轻这块资源的运营编辑的压力… …python开发爬虫(推荐)入门也比较简单，代码短小精干，各种便于爬虫开发的模块和框架其他语言很多语言也都可以开发爬虫，但是均都不是很全面，根据实际技术栈和开发场景去使用，语言只是工具，思路才是通用的做爬虫开发，需要对WEB这块有相对全面深入的理解，这样后面遇到反爬虫才能得心应手，见招拆招了解HTML会使用HTML标签构造页面，知道如何解析出DOM里标签，提取想要的数据内容了解CSS了解CSS，会解析出样式里的数据内容了解JS基本JS语法，能写能读懂，并了解JS库：Jquery，Vue 等，可以对使用开发者工具调试JS了解JSON了解JSON数据，会序列化和反序列化数据，通过解析JSON对象获取数据内容了解HTTP/HTTPS能够分析请求信息和响应信息，可以通过代码构造请求会正则解析通过正则匹配出符合规则的字符串，提取想要的数据内容会数据库操作通过数据库操作对爬取数据进行存储，如：MYSQL语法会使用抓包工具浏览器F12开发者调试工具(推荐：谷歌),Network(网络)栏目可以获取抓包信息工具：Charles，Fiddler (可抓包HTTPS，抓包APP)通过抓包工具可以过滤出数据接口或者地址，并且分析请求信息和响应信息，定位数据所在的字段或者HTML标签会使用开发者工具浏览器F12开启开发者工具需要会使用开发者工具调试HTML，CSS，JS会模拟请求工具：Charles，Fiddler，Postman通过模拟请求，分析出请求需要那些必要的信息，如：参数，COOKIE，请求头，懂得怎么模拟请求就知道编码的时候如何去构造能定位数据数据在API中：前端/原生APP请求数据API，API返回数据大部分是JSON格式，然后渲染展示数据在HTML中：查看页面HTML源代码，如果源代码里有想要获取的数据，就说明在服务端已经绑定好数据在HTML里数据在JS代码中：查看页面HTML源代码，如果获取数据不在HTML里，又没有请求数据API，可以看下数据是不是绑定到JS变量里会部署可以部署到Windows或者Linux服务器，使用工具进行爬虫进程监控，然后进行定时轮训爬取反爬虫对抗技巧反爬虫可以分为服务端限制和前端限制 服务端限制：服务器端行请求限制，防止爬虫进行数据请求 前端限制：前端通过CSS和HTML标签进行干扰混淆关键数据，防止爬虫轻易获取数据RefererUser-Agent… …如果是JS发起的请求，签名规则可以在JS函数中找到，然后再根据规则去构造签名如果是APP发起的请求，可能是前端调用原生封装的方法，或者原生发起的，这个就比较无解，需要反编译APP包，也不一定能成功如果请求被限制，建议可以试试请求延迟，具体延迟xxx毫秒/x秒，根据实际情况设定合适的时间如果延迟请求还是被限制，或者需要延迟很长时间才不会被限制，那就可以考虑使用代理IP，根据实际场景与限制的规律去运用，一般只要被限制的时候就切换请求的代理IP，这样就基本可以绕过限制目前有很多收费的代理IP服务平台，有各种服务方式，具体可以搜索了解下，费用一般都在可以接受的范围请求带上登录用户的COOKIE信息如果登录用户COOKIE信息会在固定周期内失效，那就要找到登录接口，模拟登录，存储COOKIE，然后再发起数据请求，COOKIE失效后重新这个步骤简单验证码，对图片里的字母或者数字进行识别读取，使用识图的模块包可以实现复杂验证码，无法通过识图识别，可以考虑使用第三方收费服务1 . font-face，自定义字体干扰如列子：汽车X家论帖子，猫X电影电影评分&lt;!--css--&gt;&lt;!--找到：//k3.autoimg.cn/g13/M05/D3/23/wKjByloAOg6AXB-hAADOwImCtp047..ttf--&gt;&lt;style&gt;@font-face{font-family:'myfont';src:url('//k2.autoimg.cn/g13/M08/D5/DD/wKgH41oAOg6AMyIvAADPhhJcHCg43..eot');src:url('//k3.autoimg.cn/g13/M08/D5/DD/wKgH41oAOg6AMyIvAADPhhJcHCg43..eot?#iefix')format('embedded-opentype'),url('//k3.autoimg.cn/g13/M05/D3/23/wKjByloAOg6AXB-hAADOwImCtp047..ttf')format('woff');}&lt;/style&gt;&lt;!--html--&gt;&lt;!--会员招募中--&gt;&lt;div&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;spanstyle='font-family: myfont;'&gt;&amp;#xf159;&lt;/span&gt;&lt;/div&gt;&lt;!--
+    从html中获取【html中文编码】=&amp;#xf159
+    然后解析ttf文件得到【ttf中文编码】列表
+    匹配发现【ttf中文编码】=uniF159可以与【html中文编码】=&amp;#xf159匹配，在第7个，第7个中文就是"中"
+    （抽样分析会发现ttf中中文位置是固定的，中文编码是动态变化的，所以只要映射出【ttf中文编码】索引就可以知道中文字符了）
+--&gt;破解思路： 找到ttf字体文件地址，然后下载下来，使用font解析模块包对ttf文件进行解析，可以解析出一个字体编码的集合，与dom里的文字编码进行映射，然后根据编码在ttf里的序号进行映射出中文可以使用FontForge/FontCreator工具打开ttf文件进行分析2 . 伪元素隐藏式通过伪元素来显示重要数据内容 如例子：汽车X家&lt;!--css--&gt;&lt;style&gt;.hs_kw60_configod::before{content:"一汽";}.hs_kw23_configod::before{content:"大众";}.hs_kw26_configod::before{content:"奥迪";}&lt;/style&gt;&lt;!--html--&gt;&lt;div&gt;&lt;spanclass="hs_kw60_configod"&gt;&lt;/span&gt;&lt;spanclass="hs_kw23_configod"&gt;&lt;/span&gt;&lt;spanclass="hs_kw26_configod"&gt;&lt;/span&gt;&lt;/div&gt;破解思路： 找到样式文件，然后根据HTML标签里class名称，匹配出CSS里对应class中content的内容进行替换3 . backgroud-image通过背景图片的position位置偏移量，显示数字/符号，如：价格，评分等 根据backgroud-postion值和图片数字进行映射4 . html标签干扰通过在重要数据的标签里加入一些有的没的隐藏内容的标签，干扰数据的获取 如例子：xxIP代理平台&lt;!--html--&gt;&lt;tdclass="ip"&gt;&lt;pstyle="display:none;"&gt;&lt;/p&gt;&lt;span&gt;&lt;/span&gt;&lt;spanstyle="display:inline-block;"&gt;&lt;/span&gt;&lt;divstyle="display: inline-block;"&gt;&lt;/div&gt;&lt;pstyle="display:none;"&gt;&lt;/p&gt;&lt;span&gt;&lt;/span&gt;&lt;divstyle="display:inline-block;"&gt;&lt;/div&gt;&lt;spanstyle="display:inline-block;"&gt;&lt;/span&gt;&lt;divstyle="display:inline-block;"&gt;&lt;/div&gt;&lt;spanstyle="display: inline-block;"&gt;&lt;/span&gt;&lt;spanstyle="display:inline-block;"&gt;&lt;/span&gt;&lt;pstyle="display:none;"&gt;&lt;/p&gt;&lt;span&gt;&lt;/span&gt;&lt;pstyle="display:none;"&gt;&lt;/p&gt;&lt;span&gt;&lt;/span&gt;&lt;spanstyle="display: inline-block;"&gt;&lt;/span&gt;&lt;divstyle="display: inline-block;"&gt;&lt;/div&gt;&lt;pstyle="display:none;"&gt;&lt;/p&gt;&lt;span&gt;&lt;/span&gt;&lt;divstyle="display: inline-block;"&gt;&lt;/div&gt;&lt;spanclass="port GEA"&gt;&lt;/span&gt;&lt;/td&gt;&lt;!--js--&gt;&lt;script&gt;$(".ip:eq(0)&gt;*:hidden").remove()$(".ip:eq(0)").text()&lt;/script&gt;&lt;!--
+    输出：202.109.237.35:80
+    通过移除干扰标签里有display:none隐藏标签，然后再获取text就不会有干扰的内容了
+--&gt;破解思路： 过滤掉干扰混淆的HTML标签，或者只读取有效数据的HTML标签的内容… … (反爬虫脑洞有多大，反反爬虫拆招思路就有多淫荡)防止投毒有些平台发现爬虫后并不会进行限制封杀，而是给爬虫提供误导的数据，影响他们进行错误的决策，这就是投毒为了防止被投毒，需要对数据进行抽样校验总结目前大部分中小平台对防御爬虫的意识还比较薄弱，促使了爬虫的盛行，通过爬虫可以用比较小的代价，获取更大的利益竞品数据的挖掘分析与应用对于业务增长有着举足轻重的作用，爬虫开发对于互联网产品公司的来说是个必不可少的技术当前并没有一种可以完全避免爬虫的技术，所以添加反爬虫策略只是增加了一定的难度门槛，只要拆招技术够硬还是可以被突破翻越反爬虫和反反爬虫是技术之间的较量，这场没有硝烟的战争永不停息。（程序员何必为难程序员）供参考代码font解析 C#和Python实现/// 需要引入PresentationCore.dllprivatevoidTest(){stringpath=@"F:\font.ttf";//读取字体文件             PrivateFontCollectionpfc=newPrivateFontCollection();pfc.AddFontFile(path);//实例化字体Fontf=newFont(pfc.Families[0],16);//设置字体txt_mw.Font=f;//遍历输出varfamilies=Fonts.GetFontFamilies(path);foreach(System.Windows.Media.FontFamilyfamilyinfamilies){vartypefaces=family.GetTypefaces();foreach(Typefacetypefaceintypefaces){GlyphTypefaceglyph;typeface.TryGetGlyphTypeface(outglyph);IDictionary&lt;int,ushort&gt;characterMap=glyph.CharacterToGlyphMap;vardatas=characterMap.OrderBy(d=&gt;d.Value).ToList();foreach(KeyValuePair&lt;int,ushort&gt;kvpindatas){varstr=$"[{kvp.Value}][{kvp.Key}][{(char)kvp.Key}]\r\n";txt_mw.AppendText(str);}}}}python# pip install TTFontfromfontTools.ttLibimportTTFontfromfontTools.mergeimport*me=Merger()font=TTFont('./font.ttf')cmaps=font.getBestCmap()orders=font.getGlyphOrder()# font.saveXML('F:/1.xml')printcmapsprintorders► ► ► 解密“北京8分钟”幕后的高科技► 真正的程序员，这样跟外行解释编程 ► Reward
+                                                                
+                                                            
+        
+    
+        
+    最多200字，当前共字
+          分享你的想法...        最多200字，当前共字</content></item>
+</items>

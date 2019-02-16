@@ -20,8 +20,13 @@ NEWSPIDER_MODULE = 'weixin.spiders'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
-MONGO_URI = 'localhost'
-MONGO_DB = 'WEIXIN'
+
+HOST = 'localhost'
+DATABASE = 'WEIXIN'
+PORT = '3306'
+USER = 'root'
+PASSWORD = ''
+
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 
@@ -40,10 +45,11 @@ MONGO_DB = 'WEIXIN'
 #TELNETCONSOLE_ENABLED = False
 
 # Override the default request headers:
-#DEFAULT_REQUEST_HEADERS = {
-#   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-#   'Accept-Language': 'en',
-#}
+DEFAULT_REQUEST_HEADERS = {
+    
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36',
+    'X-Requested-With': 'XMLHttpRequest',
+}
 
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
@@ -54,7 +60,7 @@ MONGO_DB = 'WEIXIN'
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-    'weixin.middlewares.ProxyMiddleware': 543,
+    'weixin.middlewares.ProxyMiddleware': 555,
 }
 
 # Enable or disable extensions
@@ -65,10 +71,11 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
+'''
 ITEM_PIPELINES = {
-'weixin.pipelines.MongoPipeline': 300,
+'weixin.pipelines.MysqlPipeline': 300,
 }
-
+'''
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
 #AUTOTHROTTLE_ENABLED = True

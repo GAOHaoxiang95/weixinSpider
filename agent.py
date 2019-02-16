@@ -4,7 +4,7 @@ import aiohttp
 import asyncio
 import time
 #http://www.moguproxy.com/
-API = "http://piping.mogumiao.com/proxy/api/get_ip_bs?appKey=ce0394234fe8403895324a23b9281af3&count=10&expiryDate=0&format=1&newLine=2"
+API = "http://piping.mogumiao.com/proxy/api/get_ip_bs?appKey=c8b81d64d6c449a183f67b8b13eb4b11&count=50&expiryDate=0&format=1&newLine=2"
 
 class Agents():
 
@@ -50,7 +50,7 @@ class Agents():
 	def saveAsTXT(self):
 		f = open('agent.txt', "w", encoding = "utf8")
 		for i in self.agentsList:
-			f.write(i + '\n')
+			f.write("'" + i + "'," + '\n')
 			
 	def get_agentsList(self):
 		return self.agentsList
@@ -59,7 +59,7 @@ a = Agents("https://weixin.sogou.com/")
 loop = asyncio.get_event_loop()
 for i in range(0, len(a.fullList), 100):
 	test = a.fullList[i:i+100]
-	tasks = [a.test_agents("http://httpbin.org/get", p) for p in test]
+	tasks = [a.test_agents("https://weixin.sogou.com/", p) for p in test]
 	loop.run_until_complete(asyncio.wait(tasks))
 	time.sleep(5)
 a.saveAsTXT()
