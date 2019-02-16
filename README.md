@@ -1,2 +1,2 @@
 # weixinSpider
-implement a simple agent pool
+currently building a distributed web crawler... ...
